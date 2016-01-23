@@ -83,50 +83,34 @@ bool e4(double x, double* res)
 	return ret;
 }
 
+void compute_and_display(const char* cb_name, bool(*cb)(double, double*), double x)
+{
+	double res = 0.0;
+
+	if (cb(x, &res))
+	{
+		cout << cb_name << "(" << x << ") = " << res << endl;
+	}
+	else
+	{
+		cout << cb_name << "(" << x << ") undefined" << endl;
+	}
+}
+
 
 int main()
 {
 	double x = 0.0;
 	double input[] = {-1.0, 0.0, 1.0, 2.0, 3.0, 8.0};
 	unsigned n = sizeof(input)/sizeof(input[0]);
-	double res = 0.0;
 
 	for (unsigned int i = 0; i < n; ++i)
 	{
 		x = input[i];
-		if (e1(x, &res))
-		{
-			cout << "e1(" << x << ") = " << res << endl;
-		}
-		else
-		{
-			cout << "e1(" << x << ") undefined" << endl;
-		}
-		if (e2(x, &res))
-		{
-			cout << "e2(" << x << ") = " << res << endl;
-		}
-		else
-		{
-			cout << "e2(" << x << ") undefined" << endl;
-		}
-		if (e3(x, &res))
-		{
-			cout << "e3(" << x << ") = " << res << endl;
-		}
-		else
-		{
-			cout << "e3(" << x << ") undefined" << endl;
-		}
-		if (e4(x, &res))
-		{
-			cout << "e4(" << x << ") = " << res << endl;
-		}
-		else
-		{
-			cout << "e4(" << x << ") undefined" << endl;
-		}
+		compute_and_display("e1",&e1, x);
+		compute_and_display("e2",&e2, x);
+		compute_and_display("e3",&e3, x);
+		compute_and_display("e4",&e4, x);
 	}
-
 	return 0;
 }

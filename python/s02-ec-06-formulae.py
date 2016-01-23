@@ -40,32 +40,23 @@ def e4(x):
 	return False, float("nan")
 
 
+def compute_and_display(callback, x):
+
+	(defined, res) = callback(x)
+	if defined:
+		print(callback.__name__ + "(" + str(x) + ") = " + str(res))
+	else:
+		print(callback.__name__ + "(" + str(x) + ") is not defined")
+
+
 def main():
 	inputs = [-1.0, 0.0, 1.0, 2.0, 3.0, 8.0]
 
 	for x in inputs:
-		(defined, res) = e1(x)
-		if defined:
-			print("e1(" str(x) ") = " + str(res))
-		else:
-			print("e1(" str(x) ") is not defined")
-
-		(defined, res) = e2(x)
-		if defined:
-			print("e2(" str(x) ") = " + str(res))
-		else:
-			print("e2(" str(x) ") is not defined")
-		(defined, res) = e3(x)
-		if defined:
-			print("e3(" str(x) ") = " + str(res))
-		else:
-			print("e3(" str(x) ") is not defined")
-		(defined, res) = e4(x)
-		if defined:
-			print("e4(" str(x) ") = " + str(res))
-		else:
-			print("e4(" str(x) ") is not defined")
-
+		compute_and_display(e1, x)
+		compute_and_display(e2, x)
+		compute_and_display(e3, x)
+		compute_and_display(e4, x)
 
 if __name__ == "__main__":
 	main()
