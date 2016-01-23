@@ -22,26 +22,26 @@ using namespace std;
 bool e1(double x, double* res)
 {
 	bool ret = false;
-	
+
 	if (x != 0)
 	{
 		*res = x / (1 - exp(x));
 		ret = true;
 	}
-	
+
 	return ret;
 }
 
 bool e2(double x, double* res)
 {
 	bool ret = false;
-	
+
 	if (x > 0.0 && x != 1.0)
 	{
 		*res = x * log(x) * exp(2 / (x - 1));
 		ret = true;
 	}
-	
+
 	return ret;
 }
 
@@ -49,13 +49,13 @@ bool e3(double x, double* res)
 {
 	bool ret = false;
 	double tmp1 = x*x - 8*x;
-	
+
 	if ((tmp1 >= 0.0) && (x != 2.0))
 	{
 		*res = (-x - sqrt(tmp1)) / (2 - x);
 		ret = true;
 	}
-	
+
 	return ret;
 }
 
@@ -63,18 +63,23 @@ bool e3(double x, double* res)
 bool e4(double x, double* res)
 {
 	bool ret = false;
-	double tmp1 = x*x - 1/x;
-	
-	if (tmp1 >= 0.0)
+
+	if (x != 0.0)
 	{
-		double tmp2 = (sin(x) - x/20) * log(tmp1);
-		if (tmp2 >= 0)
+		double tmp1 = x*x - 1/x;
+
+		if (tmp1 >= 0.0)
 		{
-			*res = sqrt(tmp2);
-			ret = true;
+			double tmp2 = (sin(x) - x/20) * log(tmp1);
+
+			if (tmp2 >= 0)
+			{
+				*res = sqrt(tmp2);
+				ret = true;
+			}
 		}
 	}
-	
+
 	return ret;
 }
 
@@ -85,7 +90,7 @@ int main()
 	double input[] = {-1.0, 0.0, 1.0, 2.0, 3.0, 8.0};
 	unsigned n = sizeof(input)/sizeof(input[0]);
 	double res = 0.0;
-	
+
 	for (unsigned int i = 0; i < n; ++i)
 	{
 		x = input[i];
