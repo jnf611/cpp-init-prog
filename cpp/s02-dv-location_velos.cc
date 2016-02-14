@@ -2,6 +2,8 @@
 using namespace std;
 
 const int tarif[] = {1, 2};
+const int start_period = 7;
+const int end_period = 19;
 
 int main()
 {
@@ -32,16 +34,36 @@ int main()
   else
   {
     cout << "Vous avez loué votre vélo pendant: " << endl;
+    //             7                19
+    //             |                 |
+    //   [      ]  |                 |      [        ]
+    //             |     [       ]   |
+    //        [    |        ]        |        ]
+    //             |        [        |      ]
     int somme = 0;
-    int nb_heure[] = {24-19+7, 19-7}; // 12 et 12
-    if (debut < 7)
+    int nb_heure[] = {0, 0};
+    if (fin <= start_period || debut >= end_period)
     {
-        nb_heure[0] -= debut - 7;
+        nb_heure[0] += fin-debut;
     }
-    if (fin > 19)
+    else if (fin <= end_period && debut >= start_period)
     {
-		nb_heure[0] -= 19 - fin;
-    }
+		nb_heure[1] += fin-debut;
+	}
+	else if (debut < start_period)
+	{
+		nb_heure[0] += start_period-debut;
+		nb_heure[1] += fin-start_period;
+		if (fin > end_period)
+		{
+			nb_heure[0] += fin-end_period;	
+		}
+	}
+	else
+	{
+		nb_heure[0] += fin-end_period;
+		nb_heure[1] += end_period-start_period;
+	}
 
     for (int i = 0; i < 2; ++i)
     {
