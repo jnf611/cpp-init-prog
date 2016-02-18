@@ -45,21 +45,21 @@ void get_input(double* h0, double* eps, int* nbr)
 {
 	do
 	{
-		cout << "Enter initial height h0:";
+		cout << "Enter initial height h0: ";
 		cin >> *h0;
 	}
 	while (*h0 <= 0);
 	
 	do
 	{
-		cout << "Enter rebond coeff eps:";
+		cout << "Enter rebond coeff eps: ";
 		cin >> *eps;
 	}
 	while ((*eps < 0.0) || (*eps >= 1.0));
 	
 	do
 	{
-		cout << "Enter nb rebond";
+		cout << "Enter nb rebond: ";
 		cin >> *nbr;
 	}
 	while (*nbr <= 0);
@@ -90,7 +90,7 @@ int main()
 	const double expectedHeight = 3.04;
 	if ((h < expectedHeight - 0.01) || (h > expectedHeight + 0.01))
 	{
-		cout << "ERROR: unexpected result h = " << h 
+		cout << "ERROR: computed result h = " << h
 			<< " different form expected height = " << expectedHeight << endl;
 		return 1;
 	}
@@ -102,7 +102,7 @@ int main()
 	get_input(&h0, &eps, &nbr);
 	double hAfter = compute_heigth(h0, eps, nbr);
 		
-	cout << "heigh after " << nbr << " rebonds starting initially at h0 = "
+	cout << "Heigh after " << nbr << " rebonds starting initially at h0 = "
 		<< h0 << " is h = " << hAfter;
 	
 	return 0;
