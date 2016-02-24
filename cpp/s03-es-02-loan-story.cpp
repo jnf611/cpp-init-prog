@@ -25,7 +25,6 @@ Testez votre programme avec les valeurs suivantes : S0=30000, r=1200, ir=0.01
 euros.*/
 
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 int main()
