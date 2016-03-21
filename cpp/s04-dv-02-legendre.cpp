@@ -70,17 +70,19 @@
 #include <cmath> // pour sqrt()
 #include <cstring> // pour sqrt()
 #include <stdlib.h> // pour sqrt(
+#include "get_ui.hpp"
+#include "my_string.hpp"
 using namespace std;
 
 /*****************************************************
  * Compléter le code à partir d'ici
  *****************************************************/
  
-/*Teste si un noombre est premier*/
+/*Teste si un nombre est premier*/
 bool est_premier(int n)
 {
 	bool is_prime = true;
-	
+
 	if (n < 2)
 	{
 		is_prime = false;
@@ -94,7 +96,7 @@ bool est_premier(int n)
 		else
 		{
 			int sqrt_n = sqrt(n);
-			for (int i = 3; i < sqrt_n; ++i)
+			for (int i = 3; i <= sqrt_n; ++i)
 			{
 				if (n%i == 0)
 				{
@@ -104,7 +106,7 @@ bool est_premier(int n)
 			}
 		}
 	}
-	
+
 	return is_prime;
 }
 
@@ -112,106 +114,129 @@ bool est_premier(int n)
  * return 1 if one test fails */
 int unit_test_est_premier()
 {
-	if (est_premier(-1))
-		return 1;
-	if (est_premier(0))
-		return 1;
-	if (est_premier(1))
-		return 1;
-	if (!est_premier(2))
-		return 1;
-	if (!est_premier(3))
-		return 1;
-	if (est_premier(4))
-		return 1;
-	if (!est_premier(5))
-		return 1;
-	if (!est_premier(17))
-		return 1;
-		
+	int input[] =   {-1,    0,     1,     2,    3,    4,     5,    9,     17};
+	bool output[] = {false, false, false, true, true, false, true, false, true};
+	int nb_test = sizeof(input)/sizeof(input[0]);
+
+	for (int i = 0; i < nb_test; ++i)
+	{
+		if (output[i] != est_premier(input[i]))
+		{
+			cout << "is prime(" << input[i]
+				<< ") is different from expected result " << output[i] << endl;
+			return 1;
+		}
+	}
+
 	return 0;
 }
 
-/* Unit tests
- * return 1 if one unit test fail */
+const int size_string = 10;
+/* Test function that returns prime numbers between nb_min and nb_max*/
+string test_premiers(int nb_min, int nb_max)
+{
+	string str_ret("");
+	char str_n[size_string];
+
+	for (int i = nb_min; i <= nb_max; ++i)
+	{
+		if (est_premier(i))
+		{
+			str_ret += to_string(i, str_n, size_string);
+			str_ret += ", ";
+		}	
+	}
+
+	return str_ret;
+}
+
+/* Unit test for test_premiers */
+int unit_test_test_premiers()
+{
+	string str_result = test_premiers(0, 100);
+	string str_expected("2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, ");
+
+	if(str_result.compare(str_expected))
+	{
+		cout << "the prime number between 0 and 100 : " << endl
+			<< str_result << endl
+			<< "is different from "
+			<< endl << str_expected << endl;
+		return 1;
+	}
+
+	return 0;
+}
+
+/* Unit test suite*/
 int unit_test()
 {
 	if (unit_test_est_premier())
 	{
 		cout << "ERROR unit_test_est_premier() failed" << endl;
-		return 1;
+		return -1;
 	}
+
+	if (unit_test_test_premiers())
+	{
+		cout << "ERROR unit_test_test_premiers() failed" << endl;
+		return -1;
+	}
+
 	return 0;
 }
 
-/* Invert the string */
-void invert_string(char* str, int n)
+/* Legendre
+ * Cette fonction testera tous les nombres compris entre n*n+1 et (n+1)*(n+1)-1
+ * et s'arrêtera au premier nombre premier rencontré, qu'elle retournera.
+ * Si, par contre, aucun nombre premier n'a été trouvé entre ces deux bornes, la
+ * fonction retournera 0. */
+int legendre(int n)
 {
-	for (int i = 0; i < (n+1)/2; i++)
-	{
-		char tmp = str[n-i];
-		str[n-i] = str[i];
-		str[i] = tmp;
-	}
-}
-
-/* Int to string conversion 
- * convert an integer to a c-string
- * return a pointer to the string or NULL*/
-char* to_string(int n, char* str, int len)
-{
-	int i = 0;
-	
-	do
-	{
-		str[i] = (n%10) + 48;
-		n /= 10;
-		++i;
-	}
-	while(n && (i < len));
-	
-	if (i == len)
-	{
-		return NULL;
-	}
-	else
-	{
-		str[i] = '\0';
-		invert_string(str, i-1);
-		return str;
-	}
-}
-
-string test_premiers(int nb_min, int nb_max)
-{
-	string str_ret("");
-	char str_n[10];
-	
-	for (int i = nb_min; i <= nb_max; ++i)
+	for (int i = n*n+1; i <= (n+1)*(n+1)-1; ++i)
 	{
 		if (est_premier(i))
 		{
-			str_ret += to_string(i, str_n);
-			str_ret += ", ";
-		}	
+			return i;
+		}
 	}
-	
-	return str_ret;
+
+	return 0;
 }
 
+/* Test function for legendre conjecture
+ * tests the conjecture for all numbers in a user selected interval */
 void test_legendre()
 {
-		
-	cout << "Premiers entre "
-		<< " et "
+	int nb_min = get_ui_int(1, 1);
+	int nb_max = get_ui_int(nb_min, nb_min);
+
+	cout << "Premiers entre " << nb_min
+		<< " et " << nb_max
 		<< " :" << endl;
 
-	cout << "Tester la conjecture de Legendre entre : ";
+	for (int i = nb_min; i <= nb_max; ++i)
+	{
+		cout << "Tester la conjecture de Legendre entre : ";
+		cout << i*i+1;
+		cout << " et : ";
+		cout << (i+1)*(i+1)-1;
+		cout << " --> ";
 
-	cout << "et : ";
-
-	cout << "PAS TROUVÉ !";
+		int first_prime = legendre(i);
+		if (first_prime == 0)
+		{
+			cout << "PAS TROUVÉ !";
+			break;
+		}
+		else
+		{
+			cout << first_prime;
+		}
+		cout << endl;
+	}
 }
+
 /*******************************************
  * Ne rien modifier après cette ligne.
  *******************************************/
@@ -220,7 +245,7 @@ int main()
 {
 	if (unit_test())
 		return 1;
-	
+
 	string str_0_100 = test_premiers(0, 100);
 	cout << str_0_100 << endl;
 	test_legendre();
