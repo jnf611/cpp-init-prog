@@ -2,6 +2,7 @@
 #include "get_ui.hpp"
 using namespace std;
 
+/* Ask user for integer in interval or superior or egal to a number */
 int get_ui_int(int min_ui, int max_ui)
 {
 	int ret = 0;
