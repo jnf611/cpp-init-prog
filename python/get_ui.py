@@ -4,7 +4,7 @@ user input interaction
 """
 
 def get_int(min_ui, max_ui):
-
+	""" Get int user input in interval or > to a min value """
 	ret = 0;
 	not_in_range = True;
 
@@ -22,7 +22,8 @@ def get_int(min_ui, max_ui):
 
 
 def do_continue():
-
+	""" Prompt user to continue
+	Return a boolean on continuation request """
 	ret = False
 
 	c = str(raw_input("do you want to continue : "))
