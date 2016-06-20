@@ -148,18 +148,19 @@ bool couleur_valide(char c)
 {
 	static const char* const couleurs = ".RGBCYM"; // this could be outside ?
 	static const int nb = strlen(couleurs) - 1;
-	
+
 	// or a big switch with a default false ?
 	for (int i = 0; i < nb; ++i)
 	{
 		if (c == couleurs[i])
 			return true;
 	}
-	
+
 	return false;
 }
 
-/* Unittest for couleur valid
+/* ======================================================================
+ *  Unittest for couleur valid
  * return 1 in case of one or more errors*/
 int unittest_couleur_valide()
 {
@@ -167,7 +168,7 @@ int unittest_couleur_valide()
 	const char input[] = "ab.RCABrc?";
 	const bool expected_output[] = {false, false, true, true, true, false, true, false, false, false};
 	int nb_test = sizeof(expected_output)/sizeof(expected_output[0]);
-	
+
 	for (int i = 0; i < nb_test; ++i)
 	{
 		bool res = couleur_valide(input[i]);
@@ -178,7 +179,7 @@ int unittest_couleur_valide()
 			ret = 1;
 		}
 	}
-	
+
 	return ret;
 }
 
@@ -196,11 +197,20 @@ réponse, il faut donc marquer toute couleur de référence déjà traitée;
 enfin, la fonction verifier retourne « true » si la couleur reçue en premier
 paramètre correspond à celle donnée en second paramètre, et « false » dans le
 cas contraire;*/
-bool verifier(// A remplir
-             )
+bool verifier(char c, char* r, int* score)
 {
 	bool ret = false;
-	
+
+	if (c == *r)
+	{
+		ret = true;
+		*score++;
+	}
+	else
+	{
+		*r = 'x';
+	}
+
 	return ret;
 }
 
@@ -219,9 +229,15 @@ cependant bien que l'on ne teste la seconde couleur de référence que si la
 couleur proposée à tester ne correspondait pas à la première couleur de
 référence, et l'on ne teste la troisième couleur de référence que si aucune des
 deux premières ne correspondait à la couleur proposée à tester;*/
-void apparier(// A remplir
-             )
+void apparier(char c, char* r1, char* r2, char* r3, int* score)
 {
+	if (!verifier(c, r1, score))
+	{
+		if(!verifier(c, r2, score))
+		{
+			verifier(c, r3, score)
+		}
+	}
 }
 
 /* ======================================================================
@@ -264,9 +280,14 @@ et sinon, elle retourne « false »;*/
 bool gagne(char c1, char c2, char c3, char c4,
            char r1, char r2, char r3, char r4)
 {
-	bool ret = false;
-	
-	return ret;
+	bool gagne = false;
+
+	if ((c1 == r1) && (c1 == r1) && (c1 == r1) && (c1 == r1))
+	{
+		gagne = true;
+	}
+
+	return gagne;
 }
 
 /* ======================================================================
@@ -294,13 +315,13 @@ void jouer(// A remplir
 int unittest()
 {
 	int ret = 0;
-	
+
 	if (unittest_couleur_valide())
 	{
 		cout << "ERROR unittest_couleur_valide() failed" << endl;
 		ret = 1;
 	}
-	
+
 	return ret;
 }
 
