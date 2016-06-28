@@ -58,29 +58,30 @@ string toDate(int date)
 	return ret;
 }
 
-void genereLettre(const string& dst,
+void genereLettre(const string& destinataire, // name comprehension is better
                   bool homme,
                   const string& objet,
                   int jour,
                   int mois,
-                  const string& formule,
-                  const string& src)
+                  const string& politesse, // name comprehension is better
+                  const string& auteur) // name comprehension is better
 {
-	string lettre = "Bonjour " + string(homme?"cher":"chère") + " "
-		+ toName(dst) + ",\n";
-	lettre += "Je vous écris à propos de votre " + objet + ".\n";
-	lettre += "Il faudrait que nous nous voyons le " + toDate(jour) + "/"
-		+ toDate(mois) + " pour en discuter.\n";
-	lettre += "Donnez-moi vite de vos nouvelles !\n";
-	lettre += toName(formule) + ", " + toName(src) + ".\n";
-
-	cout << lettre << endl;
+	// better format, no useless variable creation
+	cout
+		<< "Bonjour " << string(homme?"cher":"chère") << " "
+		<< toName(destinataire) << "," << endl
+		<< "Je vous écris à propos de votre " + objet + "." << endl
+		<< "Il faudrait que nous nous voyons le " + toDate(jour) << "/"
+		<< toDate(mois) + " pour en discuter." << endl
+		<< "Donnez-moi vite de vos nouvelles !" << endl
+		<< toName(politesse) << ", " << toName(auteur) << "." << endl;
 }
 
 int main()
 {
-	genereLettre("mireille", false, "cours", 8, 12, "amicalement", "john");
-	genereLettre("john", true, "demande de rendez-vous", 16, 12, "sincerement",
+	genereLettre("mireille", false, "cours", 8, 12, "amicalement", "John");
+	cout << endl; // better format of main test function result
+	genereLettre("john", true, "demande de rendez-vous", 16, 12, "Sincerement",
 		"mireille");
 
 	return 0;
